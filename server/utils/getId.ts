@@ -1,4 +1,4 @@
-import { Message } from "../typings/index.ts";
+import { Message } from "../../shared/typings/index.ts";
 
 export default function getId(messages: Message[]) {
   if (messages.length === 0) {
