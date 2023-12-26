@@ -1,5 +1,7 @@
 {
   "tasks": {
-    "start-client": "cd client && deno task dev"
+    "start-client": "cd client && deno task dev",
+    "start-server": "cd server && deno task start",
+    "build-client": "cd client && deno task build"
   }
 }
