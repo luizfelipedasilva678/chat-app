@@ -1,13 +1,18 @@
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed, ref, Teleport, watch } from "vue";
+import ChatModal from "./ChatModal.vue";
 import { Message } from "../typings";
 import getId from "../utils/getId";
 
 const messages = ref<Message[]>([]);
 const message = ref("");
 const userName = ref("");
-
 const id = computed(() => getId(messages.value));
+const sortedMessages = computed(() =>
+  messages.value.sort((a, b) => b.id - a.id)
+);
+
+watch(userName, () => console.log("Mudou", userName.value));
 
 function addMessage() {
   if (message.value === "") return;
@@ -24,20 +29,36 @@ function addMessage() {
 
 <template>
   <section class="chat">
-    <div class="chat__message" v-for="message in messages" :key="message.id">
-      <p class="chat__message-sender">{{ message.userName }}</p>
-      <p class="chat__message-content">{{ message.message }}</p>
-    </div>
-    <div class="chat__message-create">
-      <input class="chat__input" v-model="message" />
-      <button class="chat__button" @click="addMessage">
-        <span class="material-symbols-outlined"> send </span>
-      </button>
+    <div class="chat__messages">
+      <div
+        class="chat__message"
+        v-for="message in sortedMessages"
+        :key="message.id"
+      >
+        <p class="chat__message-sender">{{ message.userName }}</p>
+        <p class="chat__message-content">{{ message.message }}</p>
+      </div>
+      <div class="chat__message-create">
+        <input class="chat__input" v-model="message" />
+        <button class="chat__button" @click="addMessage">
+          <span class="material-symbols-outlined"> send </span>
+        </button>
+      </div>
     </div>
   </section>
+  <Teleport to="body">
+    <ChatModal
+      :open="userName === ''"
+      v-on:set-user-name="(name) => (userName = name)"
+    />
+  </Teleport>
 </template>
 
 <style scoped>
+.chat__messages {
+  height: 80%;
+  overflow-y: scroll;
+}
 .chat {
   background: #fff;
   max-width: 600px;
@@ -45,6 +66,14 @@ function addMessage() {
   width: 100%;
   border-radius: 8px;
   position: relative;
+}
+
+.chat__message-sender {
+  margin-bottom: 0;
+}
+
+.chat__message-content {
+  margin-top: 0;
 }
 
 .chat__message-create {
@@ -69,6 +98,8 @@ function addMessage() {
 .chat__message {
   display: flex;
   justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
   padding: 0 16px;
 }
 </style>
