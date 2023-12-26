@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "start-client": "cd client && deno task dev"
+  }
+}
