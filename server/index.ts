@@ -1,33 +1,18 @@
 import { listen } from "./socket.ts";
-import { serve } from "https://deno.land/std@0.150.0/http/server.ts";
-import { Server } from "https://deno.land/x/socket_io@0.1.1/mod.ts";
-import { ConnInfo } from "https://deno.land/x/socket_io@0.1.1/deps.ts";
-import {
-  serveDir,
-  serveFile,
-} from "https://deno.land/std@0.207.0/http/file_server.ts";
+import { Server } from "npm:socket.io@4.7.2";
+import express from "npm:express@4.17.1";
+import { createServer } from "node:http";
+import path from "node:path";
 
-const io = new Server();
+const app = express();
+const server = createServer(app);
+const io = new Server(server);
+
+app.use(express.static(path.join("..", "client", "dist")));
+app.use("/", express.static(path.join("..", "client", "dist", "index.html")));
 
 listen(io);
 
-await serve(
-  (req: Request, connInfo: ConnInfo) => {
-    const pathname = new URL(req.url).pathname;
-
-    if (pathname.startsWith("/assets")) {
-      return serveDir(req, {
-        fsRoot: "../client/dist",
-      });
-    }
-
-    if (pathname === "/") {
-      return serveFile(req, "../client/dist/index.html");
-    }
-
-    return io.handler()(req, connInfo);
-  },
-  {
-    port: 3000,
-  }
-);
+server.listen(3000, () => {
+  console.log("server running at http://localhost:3000");
+});
