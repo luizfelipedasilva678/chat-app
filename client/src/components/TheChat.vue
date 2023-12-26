@@ -112,4 +112,11 @@ socket.on("initialMessages", (initialMessages: Message[]) => {
   align-items: flex-end;
   padding: 0 16px;
 }
+
+@media (max-width: 600px) {
+  .chat {
+    height: 100%;
+    border-radius: 0;
+  }
+}
 </style>

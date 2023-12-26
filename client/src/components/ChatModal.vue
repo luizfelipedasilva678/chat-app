@@ -50,6 +50,14 @@ function sendUserName() {
   width: 100%;
 }
 
+.modal__content {
+  padding: 16px;
+}
+
+.modal__content h2 {
+  text-align: center;
+}
+
 .modal__input-wrapper button,
 .modal__input-wrapper input {
   width: 100%;
