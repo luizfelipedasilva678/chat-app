@@ -1,6 +1,6 @@
 # Chat-App
 
-Chat-App made with Vue and Socket.io
+Chat-App made with Vue, Socket.io and Deno
 
 ## How to run
 
