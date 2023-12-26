@@ -21,10 +21,10 @@ function addMessage() {
   };
 
   socket.emit("newMessage", newMessage);
+  message.value = "";
 }
 
 socket.on("newMessages", (newMessages: Message[]) => {
-  console.log(newMessages);
   messages.value = newMessages;
 });
 
@@ -45,7 +45,11 @@ socket.on("initialMessages", (initialMessages: Message[]) => {
         <p class="chat__message-content">{{ message.message }}</p>
       </div>
       <div class="chat__message-create">
-        <input class="chat__input" v-model="message" />
+        <input
+          class="chat__input"
+          v-model="message"
+          @keyup.enter="addMessage"
+        />
         <button class="chat__button" @click="addMessage">
           <span class="material-symbols-outlined"> send </span>
         </button>
