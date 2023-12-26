@@ -2,14 +2,11 @@
 
 :root {
   font-family: "Poppins", sans-serif;
-
-  --bg-color: #242424;
-  --white: #fff;
 }
 
 html,
 body {
-  background: var(--bg-color);
+  background: #242424;
   height: 100%;
   width: 100%;
   margin: 0;
