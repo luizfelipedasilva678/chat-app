@@ -1,5 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TheMain from "./components/TheMain.vue";
+</script>
 
 <template>
-  <p>Hello</p>
+  <TheMain />
 </template>
