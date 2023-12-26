@@ -1,7 +1,4 @@
 {
-  "imports": {
-    "socket.io-client": "https://cdn.socket.io/4.7.2/socket.io.esm.min.js"
-  },
   "tasks": {
     "dev": "deno run -A --node-modules-dir npm:vite",
     "build": "deno run -A --node-modules-dir npm:vite build",

@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import { computed, ref, Teleport, watch } from "vue";
+import { computed, ref, Teleport } from "vue";
 import ChatModal from "./ChatModal.vue";
 import { Message } from "../typings";
 import getId from "../utils/getId";
+import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
 
+const socket = io();
 const messages = ref<Message[]>([]);
 const message = ref("");
 const userName = ref("");
@@ -11,8 +13,6 @@ const id = computed(() => getId(messages.value));
 const sortedMessages = computed(() =>
   messages.value.sort((a, b) => b.id - a.id)
 );
-
-watch(userName, () => console.log("Mudou", userName.value));
 
 function addMessage() {
   if (message.value === "") return;
@@ -23,8 +23,13 @@ function addMessage() {
     userName: userName.value,
   };
 
+  socket.emit("message", newMessage);
   messages.value.push(newMessage);
 }
+
+socket.on("newMessage", (newMessage: Message) => {
+  messages.value.push(newMessage);
+});
 </script>
 
 <template>
